@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 // Registering Application routes
 routes(app);
 
-app.listen(appConfig.portNo, ()=> {
-    console.log("App Started");
+var server = app.listen(process.env.PORT || appConfig.portNo, ()=> {
+    var port = server.address().port;
+    console.log("Application running on port " + port);
 })
