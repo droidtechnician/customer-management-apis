@@ -8,7 +8,7 @@ const appConfig = require('./constants/config'),
 
 // Starting connecting with mongoDB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/SampleAppDB');
+mongoose.connect('mongodb://sampleuserone:sampleuser1@ds147265.mlab.com:47265/sample-app-db');
 
 app.use(bodyParser.urlencoded({extended: appConfig.urlEncoded}));
 app.use(bodyParser.json());
