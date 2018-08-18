@@ -10,7 +10,6 @@ module.exports = (data, removeList, errorMsg) => {
             delete dataRes['created_date'];
             delete dataRes['__v'];
             dataRes.resStatus = true;
-            console.log(dataRes);
             return dataRes;
         } else {
             return data;
