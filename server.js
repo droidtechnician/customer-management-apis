@@ -8,13 +8,20 @@ const appConfig = require('./constants/config'),
 
 // Starting connecting with mongoDB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://sampleuserone:sampleuser1@ds147265.mlab.com:47265/sample-app-db');
+mongoose.connect('mongodb://localhost/sampleDb');
 
-app.use(bodyParser.urlencoded({extended: appConfig.urlEncoded}));
+app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
 app.use(bodyParser.json());
+
+// Allow CORS
+app.use(function (req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+});
 
 // Registering Application routes
 routes(app);
 
 // Server up and running
-var server = app.listen(process.env.PORT || appConfig.portNo, ()=> {})
+var server = app.listen(process.env.PORT || appConfig.portNo, () => { })

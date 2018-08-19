@@ -3,7 +3,6 @@ module.exports = (data, removeList, errorMsg) => {
         const dataRes = JSON.parse(JSON.stringify(data));
         if (removeList && (removeList.constructor === Array) && removeList.length) {
             for (let prop of removeList) {
-                console.log(prop);
                 delete dataRes[prop];
             }
             delete dataRes['_id'];
