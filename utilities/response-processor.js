@@ -11,9 +11,10 @@ module.exports = (data, removeList, errorMsg) => {
             dataRes.resStatus = true;
             return dataRes;
         } else {
+            data.resStatus = true;
             return data;
         }
     } else {
-        return {resStatus: false, resMsg: errorMsg};
+        return { resStatus: false, resMsg: errorMsg };
     }
 }

@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    validate = require('validator');
+    validate = require('validator'),
+    uniqueValidator = require('mongoose-unique-validator');
 
 var UserSchema = new Schema({
     firstName: {
@@ -32,10 +33,12 @@ var UserSchema = new Schema({
         type: String,
         required: 'Password is mandatory'
     },
-    created_date:{
+    created_date: {
         type: Date,
         default: Date.now
     }
 });
+
+UserSchema.plugin(uniqueValidator, { message: 'This {PATH} is already registered' });
 
 module.exports = mongoose.model('User', UserSchema);
