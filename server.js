@@ -4,11 +4,12 @@ const appConfig = require('./constants/config'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     routes = require('./api/routes/routes'),
-    User = require('./api/models/user-model');
+    User = require('./api/models/user-model'),
+    env = require('./env.json')[process.env.NODE_ENV || 'development'];
 
 // Starting connecting with mongoDB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/sampleDb');
+mongoose.connect(env.mongoDbUri);
 
 app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
 app.use(bodyParser.json());
@@ -24,6 +25,4 @@ app.use(function(req, res, next) {
 routes(app);
 
 // Server up and running
-var server = app.listen(process.env.PORT || appConfig.portNo, () => {
-    console.log("Application has started");
-})
+var server = app.listen(process.env.PORT || appConfig.portNo, () => {});
