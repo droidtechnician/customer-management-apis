@@ -11,17 +11,22 @@ exports.createUser = (req, res) => {
 }
 
 exports.getUser = (req, res) => {
-    const signUp = new SignUpModel(req.body);
-    User.find({ 'emailId': signUp.emailId }, (error, user) => {
-        if (error) res.send(errorProcessor.errorProcessor(error, res));
-        else {
-            if (signUp.password === user[0].password) {
-                res.send(responseProcessor(user[0], ['firstName', 'lastName'], 'No User found'));
-            } else {
-                res.send(errorProcessor.userUnauthorizedError(res));
+    const data = req.body;
+    if (data.password !== undefined && data.emailId !== undefined) {
+        const signUp = new SignUpModel(data);
+        User.find({ 'emailId': signUp.emailId }, (error, user) => {
+            if (error) res.send(errorProcessor.errorProcessor(error, res));
+            else {
+                if (signUp.password === user[0].password) {
+                    res.send(responseProcessor(user[0], ['firstName', 'lastName'], 'No User found'));
+                } else {
+                    res.send(errorProcessor.userUnauthorizedError(res));
+                }
             }
-        }
-    })
+        })
+    } else {
+        res.send("No Body found");
+    }
 }
 
 class SignUpModel {
