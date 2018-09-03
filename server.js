@@ -20,8 +20,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Credentials", true);
     if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-        res.setHeader("Access-Control-Allow-Headers", "access-control-allow-origin,content-type");
+        res.header("Access-Control-Allow-Headers", "access-control-allow-origin,content-type");
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
         res.status(200);
     }
