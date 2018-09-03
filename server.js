@@ -17,14 +17,9 @@ app.use(bodyParser.json());
 
 // Allow CORS
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://droidtechnician.github.io");
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-    if (req.method === 'OPTIONS') {
-        res.header("Access-Control-Allow-Headers", "access-control-allow-origin,content-type");
-        res.status(200);
-    }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
     next();
 });
 
