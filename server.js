@@ -26,10 +26,10 @@ app.use(function(req, res, next) {
         res.setHeader("Access-Control-Allow-Headers", "access-control-allow-origin,content-type");
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
         res.status(200).json({});
+        next();
     } else {
         cors();
     }
-    next();
 });
 
 // Registering Application routes
