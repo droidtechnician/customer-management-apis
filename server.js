@@ -5,7 +5,8 @@ const appConfig = require('./constants/config'),
     mongoose = require('mongoose'),
     routes = require('./api/routes/routes'),
     User = require('./api/models/user-model'),
-    env = require('./env.json')[process.env.NODE_ENV || 'development'];
+    env = require('./env.json')[process.env.NODE_ENV || 'development'],
+    cors = require('cors');
 
 // Starting connecting with mongoDB
 mongoose.Promise = global.Promise;
@@ -15,11 +16,7 @@ app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
 app.use(bodyParser.json());
 
 // Allow CORS
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use(cors());
 
 // Registering Application routes
 routes(app);
