@@ -24,8 +24,6 @@ app.use((req, res, next) => {
     if (req.method === 'OPTIONS') {
         res.header("Access-Control-Allow-Headers", "access-control-allow-origin,content-type");
         res.status(200);
-    } else {
-        cors();
     }
     next();
 });
