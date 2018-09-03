@@ -12,9 +12,6 @@ const appConfig = require('./constants/config'),
 mongoose.Promise = global.Promise;
 mongoose.connect(env.mongoDbUri);
 
-app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
-app.use(bodyParser.json());
-
 // Allow CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -24,6 +21,9 @@ app.use((req, res, next) => {
     if (req.method === 'OPTIONS') res.status(200);
     next();
 });
+
+app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
+app.use(bodyParser.json());
 
 // Registering Application routes
 routes(app);
