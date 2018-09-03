@@ -16,7 +16,16 @@ app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
 app.use(bodyParser.json());
 
 // Allow CORS
-app.use(cors());
+app.use(
+    (req, res, next) => {
+        if (req.method === 'OPTIONS') {
+            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+            res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
+            return res.status(200).json({});
+        } else {
+            cors();
+        }
+    });
 
 // Registering Application routes
 routes(app);
