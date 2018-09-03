@@ -14,12 +14,14 @@ mongoose.connect(env.mongoDbUri);
 
 // Allow CORS
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader('Access-Control-Allow-Headers', '*');
-    res.setHeader('Origin', '*');
-    if (req.method === 'OPTIONS') res.status(200);
-    next();
+    if (req.method === 'OPTIONS') {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', '*');
+        res.setHeader('Access-Control-Allow-Headers', '*');
+        res.setHeader('Origin', '*');
+        res.status(200);
+        next();
+    }
 });
 
 app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
