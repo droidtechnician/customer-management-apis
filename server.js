@@ -16,20 +16,17 @@ app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
 app.use(bodyParser.json());
 
 // Allow CORS
-// app.use(function(req, res, next) {
-//     if (req.method === 'OPTIONS') {
-//         res.header("Access-Control-Allow-Origin", "*");
-//         res.header("Access-Control-Allow-Credentials", true);
-//         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//         res.setHeader("Access-Control-Allow-Headers", "access-control-allow-origin,content-type");
-//         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-//         res.status(200).json({});
-//         next();
-//     }
-// });
-
-app.options('*', cors());
-app.use(cors());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Credentials", true);
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.setHeader("Access-Control-Allow-Headers", "access-control-allow-origin,content-type");
+        res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
+        res.status(200);
+    }
+    next();
+});
 
 // Registering Application routes
 routes(app);
