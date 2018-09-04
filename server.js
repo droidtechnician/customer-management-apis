@@ -22,8 +22,10 @@ app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Headers', '*');
         res.setHeader('Origin', '*');
         res.status(200);
+        res.send({});
+    } else {
+        next();
     }
-    next();
 });
 
 app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
