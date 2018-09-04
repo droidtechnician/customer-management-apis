@@ -12,11 +12,24 @@ const appConfig = require('./constants/config'),
 mongoose.Promise = global.Promise;
 mongoose.connect(env.mongoDbUri);
 
+// Allow CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', true);
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', '*');
+        res.header('Access-Control-Allow-Headers', '*');
+        res.header('Origin', '*');
+        res.status(200);
+        res.send({});
+    } else {
+        next();
+    }
+});
+
 app.use(bodyParser.urlencoded({ extended: appConfig.urlEncoded }));
 app.use(bodyParser.json());
-
-// Allow CORS
-app.use(cors());
 
 // Registering Application routes
 routes(app);
