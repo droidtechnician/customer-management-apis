@@ -1,5 +1,6 @@
 const signUpController = require('../controllers/signup.controller'),
-    customerController = require('../controllers/customer.controller');
+    customerController = require('../controllers/customer.controller'),
+    orderController = require('../controllers/order.controller');
 
 var routes = function(app) {
 
@@ -16,6 +17,9 @@ var routes = function(app) {
 
     app.route('/customers/:page')
         .get(customerController.getCustomersPage);
+
+    app.route('/order')
+        .post(orderController.createOrder);
 
     app.route('/mock')
         .get(customerController.insertMockData);

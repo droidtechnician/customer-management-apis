@@ -2,7 +2,9 @@ const Customer = require('../models/customer-model'),
     errorProcessor = require('../../utilities/error-processors'),
     responseProcessor = require('../../utilities/response-processor'),
     formatData = require('../../utilities/format-data'),
-    mockData = require('../../utilities/mock_data');
+    mockData = require('../../utilities/customer_mock_data'),
+    orderMockData = require('../../utilities/orders_mock_data'),
+    sampleJS = require('../../utilities/sample');
 
 /**
  * creates customer
@@ -94,10 +96,5 @@ exports.updateCustomer = (req, res) => {
  * insert mock data
  */
 exports.insertMockData = (req, res) => {
-    res.send('Done !!!');
-    const tempMockData = mockData;
-    for (let item of tempMockData) {
-        let customer = new Customer(item);
-        customer.save(customer);
-    }
+    res.send('Woopieee');
 }
