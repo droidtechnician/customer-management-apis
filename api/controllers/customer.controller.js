@@ -4,7 +4,8 @@ const Customer = require('../models/customer-model'),
     formatData = require('../../utilities/format-data'),
     mockData = require('../../utilities/customer_mock_data'),
     orderMockData = require('../../utilities/orders_mock_data'),
-    sampleJS = require('../../utilities/sample');
+    sampleJS = require('../../utilities/sample')
+Order = require('../models/order-model');
 
 /**
  * creates customer
@@ -96,5 +97,46 @@ exports.updateCustomer = (req, res) => {
  * insert mock data
  */
 exports.insertMockData = (req, res) => {
-    res.send('Woopieee');
+    res.send('Wooppieee');
+    for (let i = 0; i < orderMockData.length; i++) {
+        let orderDum = orderMockData[i];
+        let items = [];
+        for (let key in orderDum) {
+            items.push(orderDum[`${key}`]);
+        }
+        if (items.length) {
+            const custData = mockData[i];
+            custData.orders = [];
+            let customer = new Customer(custData);
+            customer.save((error, newCust) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    const temp = {
+                        items: items,
+                        customer_id: newCust.customer_id,
+                    }
+                    let order = new Order(temp);
+                    order.save((error, newOrder) => {
+                        console.log(newOrder)
+                        if (error) console.log(error);
+                        else {
+                            Customer.updateOne({ customer_id: newOrder.customer_id }, {
+                                orders: newOrder.orderNo
+                            }, (error, updatedCust) => {
+                                if (error) console.log(error);
+                                else {
+                                    console.log('ORder created success with customer');
+                                    console.log('Customer updated successfully');
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        } else {
+            console.log(orderDum);
+            break;
+        }
+    }
 }

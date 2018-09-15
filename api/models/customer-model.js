@@ -48,11 +48,18 @@ const CustomerSchema = new Schema({
     },
     streetAddress: {
         type: String
+    },
+    orders: {
+        type: [Number]
     }
 });
 
 CustomerSchema.plugin(uniqueValidator, { message: 'This {PATH} is already registered' });
 autoIncrement.initialize(mongoose.connection);
-CustomerSchema.plugin(autoIncrement.plugin, { model: 'Customer', field: 'customer_id' });
+CustomerSchema.plugin(autoIncrement.plugin, {
+    model: 'Customer',
+    field: 'customer_id',
+    startAt: 1
+});
 
 module.exports = mongoose.model('Customer', CustomerSchema);

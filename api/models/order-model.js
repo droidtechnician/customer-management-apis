@@ -1,6 +1,7 @@
 'use strict';
 
 const autoIncrement = require('mongoose-auto-increment'),
+    CustomerModel = require('./customer-model'),
     mongoose = require('mongoose'),
     validators = require('validator'),
     Schema = mongoose.Schema;
@@ -44,6 +45,10 @@ const ItemSchema = new Schema({
     qty: {
         type: Number,
         min: [1, 'Atleast one item should be added']
+    },
+    price: {
+        type: Number,
+        required: 'Price is mandatory'
     }
 })
 
@@ -53,7 +58,22 @@ const OrderSchema = new Schema({
     },
     items: [
         ItemSchema
-    ]
+    ],
+    customer_id: {
+        type: Number,
+        required: 'Order cannot be created without customer details',
+        validate: {
+            validator: (value) => {
+                return new Promise((resolve, reject) => {
+                    CustomerModel.find({ customer_id: value }, (error, cust) => {
+                        if (error || !cust.length) reject(false);
+                        else resolve(true);
+                    })
+                })
+            },
+            message: 'Customer with these details doesnot exist'
+        }
+    }
 });
 
 autoIncrement.initialize(mongoose.connection);

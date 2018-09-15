@@ -83,6 +83,7 @@ exports.generateDummyOrders = () => {
             item.category = category.name;
             item.itemName = data[category.id][generateRand(data[category.id].length)];
             item.brand = brands[generateRand(brands.length)];
+            item.price = generateRand(100);
             item.qty = 1;
             order[`${j + 1}`] = item;
         }

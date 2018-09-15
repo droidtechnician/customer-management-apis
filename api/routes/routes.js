@@ -19,6 +19,7 @@ var routes = function(app) {
         .get(customerController.getCustomersPage);
 
     app.route('/order')
+        .get(orderController.getOrder)
         .post(orderController.createOrder);
 
     app.route('/mock')

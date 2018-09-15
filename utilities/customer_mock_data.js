@@ -259,7 +259,7 @@ const mock_data = [{
         "streetAddress": "1826 Green Trail"
     },
     {
-        "first_name": "Hi",
+        "first_name": "Hello",
         "last_name": "Stockbridge",
         "email": "hstockbridgeq@comsenz.com",
         "gender": "Male",
