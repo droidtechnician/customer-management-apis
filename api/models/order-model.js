@@ -73,6 +73,18 @@ const OrderSchema = new Schema({
             },
             message: 'Customer with these details doesnot exist'
         }
+    },
+    totalAmount: {
+        type: Number,
+        required: 'Total amount cannot be empty',
+        validate: {
+            validator: (value) => {
+                return new Promise((resolve, reject) => {
+                    if (value > 0) resolve(true);
+                    else reject(false);
+                })
+            }
+        }
     }
 });
 

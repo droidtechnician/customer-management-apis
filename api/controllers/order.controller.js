@@ -1,4 +1,6 @@
-const Order = require('../models/order-model'),
+const
+async = require('async'),
+    Order = require('../models/order-model'),
     Customer = require('../models/customer-model'),
     errorProcessor = require('../../utilities/error-processors'),
     responseProcessor = require('../../utilities/response-processor'),
@@ -23,21 +25,26 @@ exports.getOrder = (req, res) => {
         if (error) res.send(errorProcessor.errorProcessor(error, res));
         else {
             const responseData = [];
-            const resStatus = false;
-            for (let order of orders) {
+            let resStatus = false;
+            async.eachOfSeries(orders, (order, key, callback) => {
                 const itemsList = [];
                 for (let item of order.items) {
                     const tempData = formatData.formatData(item);
                     itemsList.push(tempData);
                 }
-                // order.items = itemsList;
                 const newOrder = JSON.parse(JSON.stringify(order));
                 newOrder.items = itemsList;
-                responseData.push(formatData.formatData(newOrder));
-            }
-            if (!responseData.length) resStatus = false;
-            else resStatus = true;
-            res.send({ resStatus: resStatus, data: responseData });
+                newOrder.itemCount = itemsList.length || 0;
+                Customer.find({ customer_id: order.customer_id }, (error, cust) => {
+                    if (cust) newOrder.custName = `${cust[0].first_name} ${cust[0].last_name}`;
+                    responseData.push(formatData.formatData(newOrder));
+                    callback();
+                });
+            }, () => {
+                if (!responseData.length) resStatus = false;
+                else resStatus = true;
+                res.send({ resStatus: resStatus, data: responseData });
+            })
         }
     })
 }

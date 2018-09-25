@@ -101,42 +101,34 @@ exports.insertMockData = (req, res) => {
     for (let i = 0; i < orderMockData.length; i++) {
         let orderDum = orderMockData[i];
         let items = [];
+        let totalPrice = 0;
         for (let key in orderDum) {
-            items.push(orderDum[`${key}`]);
+            const tempOrd = orderDum[`${key}`];
+            items.push(tempOrd);
+            totalPrice += parseInt(tempOrd.price);
         }
         if (items.length) {
             const custData = mockData[i];
             custData.orders = [];
             let customer = new Customer(custData);
             customer.save((error, newCust) => {
-                if (error) {
-                    console.log(error);
-                } else {
+                if (error) {} else {
                     const temp = {
                         items: items,
                         customer_id: newCust.customer_id,
+                        totalAmount: totalPrice
                     }
                     let order = new Order(temp);
                     order.save((error, newOrder) => {
-                        console.log(newOrder)
                         if (error) console.log(error);
                         else {
                             Customer.updateOne({ customer_id: newOrder.customer_id }, {
                                 orders: newOrder.orderNo
-                            }, (error, updatedCust) => {
-                                if (error) console.log(error);
-                                else {
-                                    console.log('ORder created success with customer');
-                                    console.log('Customer updated successfully');
-                                }
-                            })
+                            }, (error, updatedCust) => {})
                         }
                     })
                 }
             })
-        } else {
-            console.log(orderDum);
-            break;
         }
     }
 }
