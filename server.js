@@ -5,8 +5,7 @@ const appConfig = require('./constants/config'),
     mongoose = require('mongoose'),
     routes = require('./api/routes/routes'),
     User = require('./api/models/user-model'),
-    env = require('./env.json')[process.env.NODE_ENV || 'development'],
-    cors = require('cors');
+    env = require('./env.json')[process.env.NODE_ENV || 'development'];
 
 // Starting connecting with mongoDB
 mongoose.Promise = global.Promise;
