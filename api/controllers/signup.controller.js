@@ -17,10 +17,14 @@ exports.getUser = (req, res) => {
         User.find({ 'emailId': signUp.emailId }, (error, user) => {
             if (error) res.send(errorProcessor.errorProcessor(error, res));
             else {
-                if (signUp.password === user[0].password) {
-                    res.send(responseProcessor(user[0], ['firstName', 'lastName'], 'No User found'));
-                } else {
-                    res.send(errorProcessor.userUnauthorizedError(res));
+                const response = responseProcessor(user[0], ['firstName', 'lastName'], 'No User found');
+                if (!response.resStatus) res.send(response);
+                else {
+                    if (user[0].password === signUp.password) {
+                        res.send(response);
+                    } else {
+                        res.send(errorProcessor.userUnauthorizedError(res));
+                    }
                 }
             }
         })
