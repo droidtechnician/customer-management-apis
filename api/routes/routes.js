@@ -18,7 +18,7 @@ var routes = function(app) {
     app.route('/customers/:page')
         .get(customerController.getCustomersPage);
 
-    app.route('/order')
+    app.route('/order/:orderId?')
         .get(orderController.getOrder)
         .post(orderController.createOrder);
 

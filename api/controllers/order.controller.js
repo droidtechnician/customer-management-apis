@@ -21,6 +21,31 @@ exports.createOrder = (req, res) => {
 }
 
 exports.getOrder = (req, res) => {
+    const ordersListStr = req.query.ordersList;
+    const ordersList = ordersListStr ? JSON.parse(`{"orders": ${ordersListStr}}`) : undefined;
+    if (ordersList && ordersList.orders && ordersList.orders.length)
+        getSpecificOrders(JSON.parse(JSON.stringify(ordersList)), res);
+    else getAllOrders(req, res);
+}
+
+function getSpecificOrders(ordersList, res) {
+    const ordersRes = [];
+    let errorOccurred = false;
+    async.eachOfSeries(ordersList.orders, (orderNo, key, callback) => {
+
+        Order.find({ orderNo: orderNo }, (error, order) => {
+            if (error || !order.length) {
+                errorOccurred = true;
+                res.send(errorProcessor.errorProcessor(error, res));
+            } else ordersRes.push(formatData.formatData(order[0]));
+            callback();
+        });
+    }, () => {
+        if (!errorOccurred) res.send({ res: ordersRes });
+    })
+}
+
+function getAllOrders(req, res) {
     Order.find({}, (error, orders) => {
         if (error) res.send(errorProcessor.errorProcessor(error, res));
         else {
@@ -46,5 +71,5 @@ exports.getOrder = (req, res) => {
                 res.send({ resStatus: resStatus, data: responseData });
             })
         }
-    })
+    });
 }

@@ -23,7 +23,7 @@ var data = {
     watchesJewelery: [
         'Analague watch',
         'Digital watch',
-        'Diamond Neclace'
+        'Diamond Necklace'
     ],
     luggage: [
         'Trolley Bag',
